@@ -43,5 +43,13 @@ app.use(helmet({
     } 
 }));
 
+// Importation du router User 
+const userRoutes = require('./routes/user')
+app.use('/api/user', userRoutes);
+
+// Importation du router Post 
+const postRoutes = require('./routes/post')
+app.use('/api/post', postRoutes);
+
 // Exportation de l'application pour être utilisée sur d'autres fichiers 
 module.exports = app;
