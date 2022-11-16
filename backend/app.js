@@ -4,10 +4,6 @@ const path = require('path');
 // Utilisation de helmet pour accroitre la sécurité
 const helmet = require('helmet');
 
-// "Data Sanitization" contre XSS
-const xss = require('xss-clean');
-app.use(xss());
-
 // Importation des variables d'environnement 
 require('dotenv').config();
 const dbName = process.env.dbName;
@@ -50,6 +46,9 @@ app.use('/api/user', userRoutes);
 // Importation du router Post 
 const postRoutes = require('./routes/post')
 app.use('/api/post', postRoutes);
+
+/* Middleware express static permettant d'ajouter des images qui vont se déplacer par la suite dans le dossier images */
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Exportation de l'application pour être utilisée sur d'autres fichiers 
 module.exports = app;

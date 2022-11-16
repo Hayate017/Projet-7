@@ -3,7 +3,9 @@ const router = express.Router();
 
 const userControl = require('../controllers/user');
 
+const auth = require('../middleware/auth');
 
+const multer = require('../middleware/multer-config');
 
 
 // Création des routes user /* Creating the user routes */
