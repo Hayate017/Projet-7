@@ -1,17 +1,22 @@
-const express = require('express');
-const path = require('path');
+/******************** EXPRESS APPLICATION CONFIGURATION ********************/
 
-// Utilisation de helmet pour accroitre la sécurité
+/* Importing express */
+const express = require('express');
+
+/* Importing helmet */
 const helmet = require('helmet');
 
-// Importation des variables d'environnement 
+/* Importing node path package */
+const path = require('path');
+
+/* Importing environment variables */
 require('dotenv').config();
 const dbName = process.env.dbName;
 
-// Importation des configurations nécessaires à la connexion à la base de données
+/* Importing db connection configuration  */
 const mysql = require('./dbConnection').connection;
 
-// Message pour confirmer la connexion à la base de données 
+/* Logging connection info */
 mysql.connect(function(err){
     if(err){
         throw err;
@@ -19,12 +24,13 @@ mysql.connect(function(err){
     console.log(`Connected successfully to ${dbName} database`)
 })
 
+/* Creating the express app using the express method */
 const app = express();
 
-// Création d'un middleware pour avoir accès à la requête body
+/* Creating a middleware using the .json method from express to get access to the request body */
 app.use(express.json());
 
-// Configuration des headers pour autoriser des reqûetes cross-origin
+/* Specifying specific access control headers for all the response objects to allow cross-origin requests (and prevent CORS errors) */
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -32,23 +38,24 @@ app.use((req, res, next) => {
     next();
   });
 
-// Configuration de helmet afin d'autoriser la manipulation de ressources externes sur l'application
+/* Setting helmet with crossOriginResourcePolicy*/
 app.use(helmet({ 
     crossOriginResourcePolicy: { 
         policy: "same-site" 
     } 
 }));
 
-// Importation du router User 
+/* Importing user router */
 const userRoutes = require('./routes/user')
 app.use('/api/user', userRoutes);
 
-// Importation du router Post 
+/* Importing post router */
 const postRoutes = require('./routes/post')
 app.use('/api/post', postRoutes);
 
-/* Middleware express static permettant d'ajouter des images qui vont se déplacer par la suite dans le dossier images */
+/* Creating a middleware to handle requests that add images to the images folder */
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-// Exportation de l'application pour être utilisée sur d'autres fichiers 
+/* Exporting the express app to be used on other files */
 module.exports = app;
+

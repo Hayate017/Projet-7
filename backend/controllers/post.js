@@ -1,10 +1,15 @@
-// Importation des configurations de connexion à la base de données pour l'utiliser 
+/******************** POST CONTROLLER CONFIGURATION ********************/
+
+/* Importing db connection configuration  */
 const mysql = require('../dbConnection').connection;
 
+/* Importing the Node File System package */
 const fs = require('fs');
 const { isBuffer } = require('util');
 
-// Permet de créer un post
+/********** POSTS MANAGEMENT **********/
+
+/***** CREATE POST *****/
 exports.createPost = (req, res, next) => {
     const userId = req.auth.userId;
     if(req.file){
@@ -38,7 +43,7 @@ exports.createPost = (req, res, next) => {
     }
 };
 
-// Permet de récupérer tous les posts de la base de données Mysql
+/***** GET ALL POSTS *****/
 exports.getAllPosts = (req, res, next) => {
     mysql.query(`SELECT post.id, user.username, post.user_Id, post.title, post.content, post.imageUrl, DATE_FORMAT(date, '%d/%m/%Y %T') as date, post.likes FROM post JOIN user ON user.id = post.user_Id ORDER BY date DESC`, (err, result, fields) => {
         if(err){
@@ -52,7 +57,7 @@ exports.getAllPosts = (req, res, next) => {
     })
 };
 
-// Permet de récupérer un post identifié par son id dans la base de données Mysql
+/***** GET ONE POST *****/
 exports.getOnePost = (req, res, next) => {
     const postId = req.params.id;
     mysql.query(`SELECT post.id, user.username, post.title, post.content, post.imageUrl, DATE_FORMAT(date, '%d/%m/%Y %T') as date, post.likes FROM post JOIN user on user.id = post.user_id WHERE post.id = ${postId}`, (err, result, fields) => {
@@ -66,7 +71,7 @@ exports.getOnePost = (req, res, next) => {
     })
 };
 
-// Permet de récupérer tous les posts d'un utilisateur dans la base de données Mysql
+/***** GET ALL POSTS FROM ONE USER *****/
 exports.getAllPostsFromOneUser = (req, res, next) => {
     const id = req.params.id;
     mysql.query(`SELECT post.id, user.username, post.title, post.content, post.imageUrl, DATE_FORMAT(date, '%d/%m/%Y %T') as date, post.likes FROM post JOIN user on user.id = post.user_id WHERE user.id = ${id} ORDER BY date DESC`, (err, result, fields) => {
@@ -81,7 +86,7 @@ exports.getAllPostsFromOneUser = (req, res, next) => {
     })
 };
 
-// Permet de supprimer un post
+/***** DELETE ONE POST *****/
 exports.deleteOnePost = (req, res, next) => {
     const id = req.params.id;
     const userId = req.auth.userId;
@@ -117,7 +122,7 @@ exports.deleteOnePost = (req, res, next) => {
     })
 };
 
-// Permet de modifier un post 
+/****** MODIFY ONE POST *****/
 exports.modifyPost = (req, res, next) => {
     const id = req.params.id;
     const userId = req.auth.userId;
@@ -198,7 +203,9 @@ exports.modifyPost = (req, res, next) => {
     })
 };
 
-// Permet de créer un commentaire
+/********** COMMENTS MANAGEMENT **********/
+
+/***** CREATE COMMENT *****/
 exports.createComment = (req, res, next) => {
     const userId = req.auth.userId;
     const postId = req.params.id;
@@ -215,7 +222,7 @@ exports.createComment = (req, res, next) => {
     }
 };
 
-// Permet de récupérer tous les commentaires d'un post
+/***** GET ALL COMMENTS FROM ONE POST *****/
 exports.getAllCommentsFromOnePost = (req, res, next) => {
     const postId = req.params.id;
     mysql.query(`SELECT comment.id, user.username, comment.user_id, comment.content, comment.post_id, DATE_FORMAT(date, '%d/%m/%Y %T') as date, comment.likes FROM comment JOIN user on user.id = comment.user_id WHERE comment.post_Id = ${postId} ORDER BY date ASC`, (err, result, fields) => {
@@ -226,7 +233,7 @@ exports.getAllCommentsFromOnePost = (req, res, next) => {
     });
 };
 
-// Permet de récupérer un commentaire d'un post
+/***** GET ONE COMMENT FROM ONE POST *****/ 
 exports.getOneCommentFromOnePost = (req, res, next) => {
     const postId = req.params.id;
     const commentId = req.params.commentid;
@@ -241,7 +248,7 @@ exports.getOneCommentFromOnePost = (req, res, next) => {
     })
 };
 
-// Permet de supprimer un commentaire
+/* DELETE ONE COMMENT */
 exports.deleteOneComment = (req, res, next) => {
     const postId = req.params.id;
     const commentId = req.params.commentid;
@@ -267,7 +274,7 @@ exports.deleteOneComment = (req, res, next) => {
     })
 };
 
-// Permet de modifier un commentaire
+/***** MODIFY ONE COMMENT *****/
 exports.modifyOneComment = (req, res, next) => {
     const postId = req.params.id;
     const commentId = req.params.commentid;
@@ -292,9 +299,9 @@ exports.modifyOneComment = (req, res, next) => {
     })
 };
 
+/********** LIKES MANAGEMENT **********/
 
-
-// Permet de "liker" un post
+/***** LIKE POST *****/
 exports.likePost = (req, res, next) => {
     const userId = req.auth.userId;
     const postId = req.params.id;
@@ -350,7 +357,7 @@ exports.likePost = (req, res, next) => {
     })
 };
 
-// Permet de vérifier les "likes" d'un post
+/***** CHECK POST LIKE *****/
 exports.checkPostLike = (req, res, next) => {
     const userId = req.auth.userId;
     const postId = req.params.id;
@@ -368,7 +375,7 @@ exports.checkPostLike = (req, res, next) => {
     })
 }
 
-// Permet de mettre un "like" à un commentaire 
+/***** LIKE COMMENT *****/
 exports.likeComment = (req, res, next) => {
     const userId = req.auth.userId;
     const commentId = req.params.id;
@@ -424,7 +431,7 @@ exports.likeComment = (req, res, next) => {
     })
 };
 
-// Permet de vérifier les "likes" d'un commentaire
+/***** CHECK COMMENT LIKE *****/
 exports.checkCommentLike = (req, res, next) => {
     const userId = req.auth.userId;
     const postId = req.params.id;

@@ -1,34 +1,47 @@
-const mysql = require('../dbConnection').connection;
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
-const bcrypt = require('bcrypt');
-const emailValidator = require('email-validator')
-const passwordValidator = require('password-validator');
+/******************** USER CONTROLLER CONFIGURATION ********************/
 
-// Importation des variables d'environnement
+/* Importing db connection configuration  */
+const mysql = require('../dbConnection').connection;
+
+/* Importing jsonwebtoken */
+const jwt = require('jsonwebtoken');
+
+/* Importing the Node File System package */
+const fs = require('fs');
+
+/* Importing environment variables */
 require('dotenv').config();
 const EMAIL_ENCRYPTION_KEY = process.env.EMAIL_ENCRYPTION_KEY;
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
 
-// Création d'un schéma de validation pour le mot de passe
+/***** SECURITY *****/
+
+/* Importing bcrypt */
+const bcrypt = require('bcrypt');
+
+/* Importing email-validator */
+const emailValidator = require('email-validator');
+
+/* Importing password-validator and creating schema */
+const passwordValidator = require('password-validator');
 const { json } = require('express');
 const schema = new passwordValidator();
 schema
-.is().min(7)
-.is().max(25)
+.is().min(8)
+.is().max(20)
 .has().uppercase()
 .has().lowercase()
 .has().digits()
 .has().not().spaces()
 .has().symbols()
 
-// Initialisation du "Signup"
+/***** SIGNUP *****/
 exports.signup = (req, res, next) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
     const passwordConfirm = req.body.passwordConfirm;
-    const imageUrl = 'http://localhost:3000/images/avatar_universel.png';
+    const imageUrl = 'http://localhost:3000/images/default_avatar.png';
     const bio = '';
  
     if(!emailValidator.validate(email)){
@@ -38,7 +51,7 @@ exports.signup = (req, res, next) => {
     } else if (passwordConfirm !== password){
         return res.status(401).json({message: "Les mots de passe ne sont pas identiques !"})
     }
-    if(email === 'admin2022@groupomania.com'){
+    if(email === 'administrateur@groupomania.com'){
         role_id = 1;
     } else {
         role_id = 3;
@@ -54,7 +67,7 @@ exports.signup = (req, res, next) => {
     })
 };
 
-// Initialisation "login"
+/***** LOGIN *****/
 exports.login = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -84,7 +97,7 @@ exports.login = (req, res, next) => {
     });
 };
 
-// Récupérer tous les utilisateurs 
+/***** GET ALL USERS *****/
 exports.getAllUsers = (req, res, next) => {
     mysql.query(`SELECT user.id, user.username, user.email, user.imageUrl, user.bio, role.role FROM user JOIN role on user.role_id = role.id ORDER BY user.username ASC` , (err, result, fields) => {
         if(err){
@@ -97,7 +110,7 @@ exports.getAllUsers = (req, res, next) => {
     })
 };
 
-// Récupérer un utilisateur
+/***** GET ONE USER *****/
 exports.getOneUser = (req, res, next) => {
     let userId = req.params.id;
     mysql.query(`SELECT user.id, user.username, user.email, user.imageUrl, user.bio, role.role FROM user JOIN role ON user.role_id = role.id WHERE user.id = ${userId}`, (err, result, fields) => {
@@ -111,7 +124,7 @@ exports.getOneUser = (req, res, next) => {
     })
 }
 
-// Supprimer un utilisateur
+/***** DELETE ONE USER *****/
 exports.deleteOneUser = (req, res, next) => {
     const id = req.params.id;
     const userId = req.auth.userId;
@@ -128,7 +141,7 @@ exports.deleteOneUser = (req, res, next) => {
         const filename = result[0].imageUrl.split('/images/')[1];
 
         if(role === "admin"){
-            if (filename != "avatar_universel.png"){
+            if (filename != "default_avatar.png"){
                 fs.unlink(`images/${filename}`, () => {
                     mysql.query(`DELETE FROM user WHERE id = ${id}`, (err, result, fields) => {
                         return res.status(200).json({message: "Utilisateur supprimé !"})
@@ -140,7 +153,7 @@ exports.deleteOneUser = (req, res, next) => {
                 })
             }
         } else if (role !== "admin" && id == userId) {
-            if (filename != "avatar_universel.png"){
+            if (filename != "default_avatar.png"){
                 fs.unlink(`images/${filename}`, () => {
                     mysql.query(`DELETE FROM user WHERE id = ${id}`, (err, result, fields) => {
                         return res.status(200).json({message: "Utilisateur supprimé !"})
@@ -157,7 +170,7 @@ exports.deleteOneUser = (req, res, next) => {
     })
 };
 
-// Changer de rôle
+/***** CHANGE ROLE *****/
 exports.changeRole = (req, res, next) => {
     const id = req.params.id;
     const role = req.auth.role;
@@ -189,7 +202,7 @@ exports.changeRole = (req, res, next) => {
     })
 };
 
-// Changer de mot de passe
+/***** CHANGE PASSWORD *****/
 exports.changePassword = (req, res, nex) => {
     const id = req.params.id;
     const role = req.auth.role;
@@ -226,7 +239,7 @@ exports.changePassword = (req, res, nex) => {
     }
 };
 
-// Modifier un utilisateur
+/***** MODIFY ONE USER *****/
 exports.modifyUser = (req, res, next) => {
     const userId = req.params.id;
     const id = req.auth.userId;
@@ -252,7 +265,7 @@ exports.modifyUser = (req, res, next) => {
                     return res.status(403).json({message: "Requête non autorisée !"})
                 }
                 const filename = result[0].imageUrl.split('/images/')[1];
-                if(filename != "avatar_universel.png"){
+                if(filename != "default_avatar.png"){
                     fs.unlink(`images/${filename}`, () => {
                         mysql.query(`UPDATE user SET username = ?, bio = ?, imageUrl = ? WHERE id = ${userId}`, [newUsername, newBio, newImageUrl], (err, result, fields) => {
                             if(err){

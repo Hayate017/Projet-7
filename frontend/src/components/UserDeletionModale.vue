@@ -4,8 +4,10 @@
         <div class="deletion__modale">
             <h3 class="deletion__modale__title">Êtes-vous sûr ?</h3>
             <p>La suppression du profil est irréversible !</p>
-            <div v-on:click="closeModale" v-on:keydown.enter="closeModale" class="deletion__modale__btn cancel-btn" role="button" tabindex="0">ANNULER</div>
-            <div v-on:click="deleteUser" v-on:keydown.enter="deleteUser" class="deletion__modale__btn validate-btn" role="button" tabindex="0">CONFIRMER</div>
+            <div v-on:click="closeModale" v-on:keydown.enter="closeModale" class="deletion__modale__btn cancel-btn"
+                role="button" tabindex="0">ANNULER</div>
+            <div v-on:click="deleteUser" v-on:keydown.enter="deleteUser" class="deletion__modale__btn validate-btn"
+                role="button" tabindex="0">CONFIRMER</div>
         </div>
     </div>
 </template>
@@ -18,22 +20,22 @@ export default {
     name: 'UserDeletion',
     props: ['showDeletionModale', 'token', 'id'],
     methods: {
-        deleteUser: function(){
+        deleteUser: function () {
             const config = {
                 headers: { Authorization: `Bearer ${this.token}` }
             };
 
             axios
-            .delete(`http://localhost:3000/api/user/${this.id}`, 
-            config)
-            .then(response => {
-                this.$emit('deleteUser')
-            })
-            .catch(error => {
-                console.log(error)
-            })
+                .delete(`http://localhost:3000/api/user/${this.id}`,
+                    config)
+                .then(response => {
+                    this.$emit('deleteUser')
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         },
-        closeModale: function(){
+        closeModale: function () {
             this.$emit('closeModale')
         }
     }

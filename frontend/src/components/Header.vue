@@ -4,9 +4,6 @@
             <img class="header__logo__desktop" src="../assets/icon-left-font-monochrome-white.png"
                 alt="logo de Groupomania">
         </router-link>
-        <router-link to="/fil" class="header__logo__mobile__container">
-            <img class="header__logo__mobile" src="../assets/icon-white.png" alt="logo de Groupomania">
-        </router-link>
         <router-link v-if="location !== '/profile'" to="/profile" role="button" tabindex=0 class="header__link">
             <i class="fa-solid fa-user"></i>
             <span class="tooltiptext">Profil</span>

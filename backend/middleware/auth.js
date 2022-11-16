@@ -1,33 +1,38 @@
+/******************** AUTHENTICATION MIDDLEWARE CONFIGURATION ********************/
+
+/* Importing jsonwebtoken */
 const jwt = require('jsonwebtoken');
+
+/* Importing environment variables */
 require('dotenv').config();
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
 
-// Configuration du middleware d'authentification
+/* Authentication middleware */
 module.exports = (req, res, next) => {
     try {
-    // Récupération du token d'authorisation des "headers" de la requête
+    /* Retrieving of the authorization token from the request headers */
     const token = req.headers.authorization.split(' ')[1];
 
-    // Décryptage du token
+    /* Decoding token with the verify() function */
     const decodedToken = jwt.verify(token, JWT_SECRET_TOKEN);
 
-    // Définir le userId sur le userId découvert dans le token décrypté
+    /* Defining userId as the userId found in the decodedToken */
     const userId = decodedToken.userId;
 
-    // Définir le rôle sur le rôle découvert dans le token décrypté
+    /* Defining role as the role found in the decodedToken */
     const role = decodedToken.role;
     
-    // Ajout d'un objet d'authentification
+    /* Adding auth object that contains the userId to the request */
     req.auth = {userId, role}
 
-    // Dans le cas où le userId dans la requête est différent du userId renvoyé précédemment, une erreur est déclarée
+    /* If the userId in the request is different from the userId returned by the previous operation, throwing an error */
     if (req.body.userId && req.body.userId !== userId) {
-        throw 'User ID non valide';
+        throw 'User ID non valable';
     } else {
-    // Dans le cas contraire, la fonction "next()" exécute le prochain middleware
+    /* If the userId in the request is identical to the userId returned by the previous operation, calling the next() function to execute the next middleware */
         next();
     }
-
+    /* Handling errors */
     } catch (error) {
     res.status(401).json({error})
     }

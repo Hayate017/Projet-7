@@ -1,26 +1,26 @@
 .profile {
-    width:95%;
+    width: 95%;
     max-width: 600px;
-    padding:15px;
+    padding: 15px;
     margin: 110px auto 0 auto;
-    display: flex; 
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    border-radius:5px;
+    border-radius: 5px;
     box-shadow: 2px 5px 10px 0px $color-tertiary;
     @include silver;
 
     &__img__container {
-        width:150px;
-        height:150px;
-        border-radius:50%;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
         overflow: hidden;
     }
 
     &__img {
-        height:100%;
+        height: 100%;
         width: 100%;
         object-fit: cover;
     }
@@ -31,20 +31,20 @@
     }
 
     &__bio {
-        width:100%;
-        padding:20px;
+        width: 100%;
+        padding: 20px;
         text-align: justify;
-        border-bottom:1px solid $color-secondary;
+        border-bottom: 1px solid $color-secondary;
     }
 
     &__management {
-        width:100%;
+        width: 100%;
         display: flex;
         flex-direction: row;
 
         &__btn {
-            width:50%;
-            padding:10px;
+            width: 50%;
+            padding: 10px;
             line-height: 20px;
             display: flex;
             flex-direction: column;

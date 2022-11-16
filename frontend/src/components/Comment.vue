@@ -6,9 +6,14 @@
         </div>
         <div class="comment__management">
             <div class="comment__management__btn">
-                <i v-bind:class="{ orange : commentLiked }" v-on:click="likeComment" v-on:keydown.enter="likeComment" class="fa-solid fa-thumbs-up" role="button" tabindex="0"></i><span class="count">{{ likesCount + likes }}</span>
+                <i v-bind:class="{ orange: commentLiked }" v-on:click="likeComment" v-on:keydown.enter="likeComment"
+                    class="fa-solid fa-thumbs-up" role="button" tabindex="0"></i><span class="count">{{ likesCount +
+                            likes
+                    }}</span>
             </div>
-            <div v-if="this.userId === this.loggedUserId || this.loggedUserRole === 'admin'|| this.loggedUserRole === 'modérateur' " v-on:click="deleteComment" v-on:keydown.enter="deleteComment" class="comment__management__btn" role="button" tabindex="0">
+            <div v-if="this.userId === this.loggedUserId || this.loggedUserRole === 'admin' || this.loggedUserRole === 'modérateur'"
+                v-on:click="deleteComment" v-on:keydown.enter="deleteComment" class="comment__management__btn"
+                role="button" tabindex="0">
                 <i class="fa-solid fa-trash"></i>
             </div>
         </div>
@@ -20,65 +25,65 @@
 import axios from 'axios'
 
 export default {
-    name:'Comment',
-    data(){
+    name: 'Comment',
+    data() {
         return {
             commentDeleted: false,
             commentLiked: false,
-            likesCount:0
+            likesCount: 0
         }
     },
     props: ['id', 'content', 'postId', 'userId', 'username', 'date', 'likes', 'token', 'loggedUserRole', 'loggedUserId'],
-    mounted(){
+    mounted() {
         this.checkLike()
     },
-    updated(){
+    updated() {
         this.checkLike()
     },
     methods: {
-        deleteComment: function(){
+        deleteComment: function () {
             const config = {
                 headers: { Authorization: `Bearer ${this.token}` }
             }
             axios
-            .delete(`http://localhost:3000/api/post/${this.postId}/comment/${this.id}`, config)
-            .then(response => {
-                this.$emit('commentDeleted')
-            })
-            .catch(error => {
-                console.log(error)
-            })
+                .delete(`http://localhost:3000/api/post/${this.postId}/comment/${this.id}`, config)
+                .then(response => {
+                    this.$emit('commentDeleted')
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         },
-        likeComment: function(){
+        likeComment: function () {
             const config = {
                 headers: { Authorization: `Bearer ${this.token}` }
             };
             const data = {};
             axios
-            .post(`http://localhost:3000/api/post/comment/${this.id}/like`, data, config)
-            .then(response => {
-                this.likesCount += response.data.count
-            })
-            .catch(error => {
-                console.log(error)
-            })
+                .post(`http://localhost:3000/api/post/comment/${this.id}/like`, data, config)
+                .then(response => {
+                    this.likesCount += response.data.count
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         },
-        checkLike: function(){
+        checkLike: function () {
             const config = {
                 headers: { Authorization: `Bearer ${this.token}` }
             };
             axios
-            .get(`http://localhost:3000/api/post/comment/${this.id}/like`, config)
-            .then(response => {
-                if(response.data.message === 'YES'){
-                    this.commentLiked = true;
-                } else {
-                    this.commentLiked = false;
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
+                .get(`http://localhost:3000/api/post/comment/${this.id}/like`, config)
+                .then(response => {
+                    if (response.data.message === 'YES') {
+                        this.commentLiked = true;
+                    } else {
+                        this.commentLiked = false;
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         },
     }
 }

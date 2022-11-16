@@ -1,10 +1,10 @@
 .post__form__container {
-    margin:110px auto 10px auto;
-    width:95%;
+    margin: 110px auto 10px auto;
+    width: 95%;
     max-width: 600px;
     display: flex;
     flex-direction: column;
-    border-radius:5px;
+    border-radius: 5px;
     box-shadow: 2px 5px 10px 0px $color-tertiary;
     @include silver;
 }
@@ -14,16 +14,16 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding:0 15px;
-    height:70px;
+    padding: 0 15px;
+    height: 70px;
 
     &__title {
         font-size: 20px;
     }
 
     &__btn {
-        width:25px;
-        height:25px;
+        width: 25px;
+        height: 25px;
         font-size: 25px;
         transition: all 0.3s ease;
         cursor: pointer;
@@ -37,11 +37,12 @@
 
 .avatar__container {
     flex-shrink: 0;
-    border-radius:50%;
-    height:50px;
-    width:50px;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
     overflow: hidden;
 }
+
 .avatar {
     height: 100%;
     width: 100%;
@@ -49,7 +50,7 @@
 }
 
 .post__form {
-    width:90%;
+    width: 90%;
     margin: 0 auto;
 
     &__bloc {
@@ -62,25 +63,25 @@
         }
 
         &__input {
-            width:100%;
+            width: 100%;
             margin: 5px auto;
             padding: 10px;
-            height:30px;
+            height: 30px;
         }
 
         &__textarea {
-            width:100%;
+            width: 100%;
             margin: 5px auto;
             padding: 10px;
-            height:80px;
+            height: 80px;
             font-family: 'Roboto', Helvetica, Arial, sans-serif;
         }
 
         &__submit-btn {
             font-size: 30px;
             line-height: 40px;
-            border-radius:50px;
-            border:none;
+            border-radius: 50px;
+            border: none;
             color: $color-tertiary;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -108,7 +109,7 @@
         }
 
         &__file__input {
-            display:none;
+            display: none;
         }
     }
 }
@@ -119,12 +120,12 @@
 }
 
 .btn__bloc {
-    width:50%;
-    height:40px;
+    width: 50%;
+    height: 40px;
     line-height: 20px;
 }
 
-@media screen and (max-width:350px){
+@media screen and (max-width:350px) {
     .post__form__header__title {
         font-size: 14px;
     }

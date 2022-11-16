@@ -2,30 +2,26 @@
     <div v-if="showCommentModale" class="comment__modale__container">
         <div v-on:click="closeCommentModale" class="comment__modale__overlay"></div>
         <div class="comment__modale">
-            <div v-on:click="closeCommentModale" v-on:keydown.enter="closeCommentModale" class="close-btn" role="button" tabindex="0"><i class="fa-solid fa-xmark"></i></div>
+            <div v-on:click="closeCommentModale" v-on:keydown.enter="closeCommentModale" class="close-btn" role="button"
+                tabindex="0"><i class="fa-solid fa-xmark"></i></div>
             <h3 class="comment__modale__form__heading">{{ heading }}</h3>
             <ul class="comment__modale__list">
                 <li v-bind:key="index" v-for="(comment, index) in allComments">
-                    <comment
-                    v-on:commentDeleted="commentDeleted"
-                    v-bind:id="comment.id"
-                    v-bind:content="comment.content"
-                    v-bind:postId="comment.post_id"
-                    v-bind:username="comment.username"
-                    v-bind:userId="comment.user_id"
-                    v-bind:date="comment.date"
-                    v-bind:likes="comment.likes"
-                    v-bind:token="token"
-                    v-bind:loggedUserRole="loggedUserRole"
-                    v-bind:loggedUserId="loggedUserId">
+                    <comment v-on:commentDeleted="commentDeleted" v-bind:id="comment.id"
+                        v-bind:content="comment.content" v-bind:postId="comment.post_id"
+                        v-bind:username="comment.username" v-bind:userId="comment.user_id" v-bind:date="comment.date"
+                        v-bind:likes="comment.likes" v-bind:token="token" v-bind:loggedUserRole="loggedUserRole"
+                        v-bind:loggedUserId="loggedUserId">
                     </comment>
                 </li>
             </ul>
             <hr>
             <form class="comment__modale__form">
                 <label class="comment__modale__form__label" for="comment"></label>
-                <input v-model="comment" class="comment__modale__form__input" type="text" id="comment" placeholder="Écrivez un commentaire ..." required>
-                <button v-on:click.prevent="commentPost" class="comment__modale__btn"><i class="fa-solid fa-paper-plane"></i></button>
+                <input v-model="comment" class="comment__modale__form__input" type="text" id="comment"
+                    placeholder="Écrivez un commentaire ..." required>
+                <button v-on:click.prevent="commentPost" class="comment__modale__btn"><i
+                        class="fa-solid fa-paper-plane"></i></button>
             </form>
             <p class="error__message">{{ apiResponseMessage }}</p>
         </div>
@@ -39,8 +35,8 @@ import Comment from './Comment.vue'
 import axios from 'axios'
 
 export default {
-    name:'CommentModale',
-    data(){
+    name: 'CommentModale',
+    data() {
         return {
             allComments: [],
             token: this.$store.state.token,
@@ -49,7 +45,7 @@ export default {
             heading: "Tous les commentaires",
             comment: '',
             commentsCounts: 0,
-            apiResponseMessage:''
+            apiResponseMessage: ''
         }
     },
     components: {
@@ -57,58 +53,58 @@ export default {
     },
     props: ['id', 'showCommentModale', 'compteurComment'],
     methods: {
-        closeCommentModale: function(){
+        closeCommentModale: function () {
             this.$emit('closeCommentModale')
         },
-        getAllComments: function(){
+        getAllComments: function () {
 
             const config = {
                 headers: { Authorization: `Bearer ${this.token}` }
             }
             axios
-            .get(`http://localhost:3000/api/post/${this.id}/comment`, config)
-            .then(response => {
-                if(response.data.length === 0){
-                    this.heading = "Aucun commentaires !";
-                    this.$emit('commentsCount', response.data.length)
-                } else if (response.data !== 0){
-                    for (let comment of response.data){
-                        this.allComments.push(comment)
-                        this.heading = "Tous les commentaires :"
+                .get(`http://localhost:3000/api/post/${this.id}/comment`, config)
+                .then(response => {
+                    if (response.data.length === 0) {
+                        this.heading = "Aucun commentaires !";
+                        this.$emit('commentsCount', response.data.length)
+                    } else if (response.data !== 0) {
+                        for (let comment of response.data) {
+                            this.allComments.push(comment)
+                            this.heading = "Tous les commentaires :"
+                        }
+                        this.$emit('commentsCount', response.data.length)
                     }
-                    this.$emit('commentsCount', response.data.length)
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         },
-        commentPost: function(){
+        commentPost: function () {
             const config = {
                 headers: { Authorization: `Bearer ${this.token}` }
             }
 
             axios
-            .post(`http://localhost:3000/api/post/${this.id}/comment`, {
-                content: this.comment
-            }, config)
-            .then(response => {
-                this.apiResponseMessage = ''
-                this.allComments = []
-                this.comment = ''
-                this.getAllComments()
-            })
-            .catch(error => {
-                this.apiResponseMessage = error.response.data.message
-            })
+                .post(`http://localhost:3000/api/post/${this.id}/comment`, {
+                    content: this.comment
+                }, config)
+                .then(response => {
+                    this.apiResponseMessage = ''
+                    this.allComments = []
+                    this.comment = ''
+                    this.getAllComments()
+                })
+                .catch(error => {
+                    this.apiResponseMessage = error.response.data.message
+                })
         },
-        commentDeleted: function(){
+        commentDeleted: function () {
             this.allComments = []
             this.getAllComments()
         }
     },
-    mounted(){
-        this.getAllComments()       
+    mounted() {
+        this.getAllComments()
     },
 }
 

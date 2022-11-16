@@ -20,6 +20,7 @@ new Vue({
   router: router
 }).$mount('#app')
 
+/* Automatically redirecting user to the login page when the token is expired using axios interceptors */
 axios.interceptors.response.use(
   function(response){
     return response

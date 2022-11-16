@@ -6,12 +6,18 @@
 
 <script>
 
-import Landing from '../src/views/Landing.vue'
+import Landing from './views/Landing'
 
 export default {
   name: 'App',
   components: {
-    'landing': Landing
+      'landing': Landing
   }
 }
 </script>
+
+<style lang="scss">
+
+  @import'./style/main.scss';
+
+</style>

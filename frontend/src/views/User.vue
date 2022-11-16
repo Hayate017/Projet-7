@@ -1,3 +1,5 @@
+/********** USER **********/
+
 <template>
     <div>
         <headerTop></headerTop>
@@ -11,7 +13,8 @@
                 <i class="fa-solid fa-envelope"></i>
             </a>
         </div>
-        <userPostFeed v-bind:userId="this.userId">
+        <userPostFeed
+        v-bind:userId="this.userId">
         </userPostFeed>
         <footerBottom></footerBottom>
     </div>
@@ -26,8 +29,8 @@ import Footer from '../components/Footer.vue'
 import axios from 'axios'
 
 export default {
-    name: 'User',
-    data() {
+    name:'User',
+    data(){
         return {
             userId: this.$route.params.id,
             token: this.$store.state.token,
@@ -44,28 +47,28 @@ export default {
         'footerBottom': Footer
     },
     methods: {
-        getUser: function () {
+        getUser: function(){
             const config = {
                 headers: { Authorization: `Bearer ${this.token}` }
             }
             axios
-                .get(`http://localhost:3000/api/user/${this.userId}`, config)
-                .then(response => {
-                    this.username = response.data.username;
-                    this.bio = response.data.bio;
-                    this.email = response.data.email;
-                    this.imageUrl = response.data.imageUrl;
-                })
-                .catch(error => {
-                    if (error.response.request.status === 404) {
-                        this.$router.push('/introuvable')
-                    } else {
-                        console.log(error)
-                    }
-                })
+            .get(`http://localhost:3000/api/user/${this.userId}`, config)
+            .then(response => {
+                this.username = response.data.username;
+                this.bio = response.data.bio;
+                this.email = response.data.email;
+                this.imageUrl = response.data.imageUrl;
+            })
+            .catch(error => {
+                if(error.response.request.status === 404){
+                    this.$router.push('/introuvable')
+                } else {
+                    console.log(error)
+                }     
+            })
         }
     },
-    mounted() {
+    mounted(){
         this.getUser()
     }
 }

@@ -1,34 +1,34 @@
 .modale__container {
     position: fixed;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-    width:100%;
-    height:100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .edit__form__container {
-    position:relative;
-    margin:20px auto 10px auto;
-    width:95%;
+    position: relative;
+    margin: 20px auto 10px auto;
+    width: 95%;
     max-width: 600px;
     display: flex;
     flex-direction: column;
-    border-radius:5px;
+    border-radius: 5px;
     box-shadow: 2px 5px 10px 0px $color-tertiary;
     @include silver;
 }
 
 .edit__form__modale {
-    position:relative;
-    width:95%;
+    position: relative;
+    width: 95%;
     max-width: 600px;
-    padding:20px;
-    border-radius:5px;
+    padding: 20px;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,21 +36,21 @@
     @include silver;
 
     &__overlay {
-        background: rgba(0,0,0,0.7);
+        background: rgba(0, 0, 0, 0.7);
         position: fixed;
-        top:0;
-        bottom:0;
-        left:0;
-        right:0;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 }
 
 .edit__form {
-    width:90%;
+    width: 90%;
     margin: 0 auto;
 
     &__heading {
-        margin:15px auto;
+        margin: 15px auto;
     }
 
     &__bloc {
@@ -63,17 +63,17 @@
         }
 
         &__input {
-            width:100%;
+            width: 100%;
             margin: 5px auto;
             padding: 10px;
-            height:30px;
+            height: 30px;
         }
-        
+
         &__textarea {
-            width:100%;
+            width: 100%;
             margin: 5px auto;
             padding: 10px;
-            height:80px;
+            height: 80px;
             font-family: 'Roboto', Helvetica, Arial, sans-serif;
         }
 
@@ -89,14 +89,14 @@
         }
 
         &__file__input {
-            display:none;
+            display: none;
         }
 
         &__submit-btn {
             font-size: 30px;
             line-height: 40px;
-            border-radius:50px;
-            border:none;
+            border-radius: 50px;
+            border: none;
             color: #333;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -120,7 +120,7 @@
 }
 
 .btn__bloc {
-    width:50%;
-    height:40px;
+    width: 50%;
+    height: 40px;
     line-height: 20px;
 }
