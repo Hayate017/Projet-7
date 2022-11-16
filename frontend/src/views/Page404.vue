@@ -17,7 +17,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 
 export default {
-    name: 'Error404',
+    name: 'Page404',
     components: {
         'headerTop': Header,
         'footerBottom': Footer
