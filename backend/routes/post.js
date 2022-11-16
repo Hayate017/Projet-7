@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const postControl = require('../controllers/post');
+
 // Création des routes post
 router.post('/', auth, multer, postControl.createPost);
 router.get('/', auth, postControl.getAllPosts);
