@@ -1,11 +1,11 @@
-import Landing from '../views/Landing'
-import Connection from '../views/Connection'
-import MainPage from '../views/Main-page'
-import Profile from '../views/Profile'
-import Users from '../views/Users'
-import User from '../views/User'
-import Page404 from '../views/Error404'
-import store from '../store'
+import Landing from './views/Landing'
+import Connection from './views/Connection'
+import MainPage from './views/Main-page'
+import Profile from './views/Profile'
+import Users from './views/Users'
+import User from './views/User'
+import Page404 from './views/Page404'
+import store from './store'
 
 export default [
     {
