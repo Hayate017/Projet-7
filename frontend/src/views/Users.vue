@@ -1,5 +1,3 @@
-/********** USERS **********/
-
 <template>
     <div>
         <headerTop></headerTop>

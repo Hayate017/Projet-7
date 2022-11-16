@@ -1,12 +1,7 @@
-/********** PROFILE **********/
-
 <template>
     <div>
         <headerTop> </headerTop>
-        <profileDetails
-        v-bind:userId="userId"
-        v-bind:token="token"
-        >
+        <profileDetails v-bind:userId="userId" v-bind:token="token">
         </profileDetails>
         <footerBottom></footerBottom>
     </div>
@@ -20,10 +15,10 @@ import ProfileDetails from '../components/ProfileDetails.vue'
 
 export default {
     name: 'Profile',
-    data(){
+    data() {
         return {
-            userId:this.$store.state.userId,
-            token:this.$store.state.token
+            userId: this.$store.state.userId,
+            token: this.$store.state.token
         }
     },
     components: {

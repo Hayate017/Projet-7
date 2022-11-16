@@ -1,12 +1,7 @@
-/******************** NODE SERVER CONFIGURATION ********************/
-
-/* Importing node HTTP package */
 const http = require('http');
 
-/* Importing express application */
 const app = require('./app');
 
-/* Creating a normalizePort function that returns a valid port, whether supplied as a number or a string */
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -21,7 +16,6 @@ const normalizePort = val => {
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-/* Creating an errorHandler function that checks for errors and handles them appropriately */
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -42,10 +36,8 @@ const errorHandler = error => {
   }
 };
 
-/* Creating server using the createServer method from the node http package and setting the express application as parameter */
 const server = http.createServer(app);
 
-/* Saving the errorHandler function in the server */
 server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
@@ -55,5 +47,4 @@ server.on('listening', () => {
   console.log('----------------------------------------')
 });
 
-/* Using the listen method from server to listen to port as defined */
 server.listen(port);

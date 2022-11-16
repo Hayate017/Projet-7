@@ -1,21 +1,14 @@
-/******************** POST ROUTER CONFIGURATION ********************/
-
-/* Importing express */
 const express = require('express');
 
-/* Creating router with the Router() function */
 const router = express.Router();
 
-/* Importing post controller */
 const postControl = require('../controllers/post');
 
-/* Importing the authentication middleware */
 const auth = require('../middleware/auth');
 
-/* Importing the multer configuration to handle files */
 const multer = require('../middleware/multer-config')
 
-/* Creating the post routes */
+// Création des routes POST
 router.post('/', auth, multer, postControl.createPost);
 router.get('/', auth, postControl.getAllPosts);
 router.get('/:id', auth, postControl.getOnePost);
@@ -32,5 +25,5 @@ router.post('/comment/:id/like', auth, postControl.likeComment);
 router.get('/:id/like', auth, postControl.checkPostLike);
 router.get('/comment/:id/like', auth, postControl.checkCommentLike);
 
-/* Exporting router */ 
+
 module.exports = router;

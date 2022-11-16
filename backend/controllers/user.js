@@ -1,28 +1,18 @@
-/******************** USER CONTROLLER CONFIGURATION ********************/
-
-/* Importing db connection configuration  */
 const mysql = require('../dbConnection').connection;
-
-/* Importing jsonwebtoken */
 const jwt = require('jsonwebtoken');
-
-/* Importing the Node File System package */
 const fs = require('fs');
 
-/* Importing environment variables */
+// Importation des variables d'environnement
 require('dotenv').config();
 const EMAIL_ENCRYPTION_KEY = process.env.EMAIL_ENCRYPTION_KEY;
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
 
-/***** SECURITY *****/
 
-/* Importing bcrypt */
 const bcrypt = require('bcrypt');
 
-/* Importing email-validator */
 const emailValidator = require('email-validator');
 
-/* Importing password-validator and creating schema */
+// Création d'un schéma de validation pour le mot de passe
 const passwordValidator = require('password-validator');
 const { json } = require('express');
 const schema = new passwordValidator();
@@ -35,7 +25,7 @@ schema
 .has().not().spaces()
 .has().symbols()
 
-/***** SIGNUP *****/
+// Initialisation du "Signup"
 exports.signup = (req, res, next) => {
     const username = req.body.username;
     const email = req.body.email;
@@ -67,7 +57,7 @@ exports.signup = (req, res, next) => {
     })
 };
 
-/***** LOGIN *****/
+// Initialisation "login"
 exports.login = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -97,20 +87,20 @@ exports.login = (req, res, next) => {
     });
 };
 
-/***** GET ALL USERS *****/
+// Récupérer tous les utilisateurs 
 exports.getAllUsers = (req, res, next) => {
     mysql.query(`SELECT user.id, user.username, user.email, user.imageUrl, user.bio, role.role FROM user JOIN role on user.role_id = role.id ORDER BY user.username ASC` , (err, result, fields) => {
         if(err){
             return res.status(500).json({err});
         }
         if(result.length === 0){
-            return res.status(404).json({message: "Aucuns utilisateurs !"})
+            return res.status(404).json({message: "Aucun utilisateur !"})
         }
         res.status(200).json(result);
     })
 };
 
-/***** GET ONE USER *****/
+// Récupérer un utilisateur
 exports.getOneUser = (req, res, next) => {
     let userId = req.params.id;
     mysql.query(`SELECT user.id, user.username, user.email, user.imageUrl, user.bio, role.role FROM user JOIN role ON user.role_id = role.id WHERE user.id = ${userId}`, (err, result, fields) => {
@@ -124,7 +114,7 @@ exports.getOneUser = (req, res, next) => {
     })
 }
 
-/***** DELETE ONE USER *****/
+// Supprimer un utilisateur
 exports.deleteOneUser = (req, res, next) => {
     const id = req.params.id;
     const userId = req.auth.userId;
@@ -170,7 +160,7 @@ exports.deleteOneUser = (req, res, next) => {
     })
 };
 
-/***** CHANGE ROLE *****/
+// Changer de rôle
 exports.changeRole = (req, res, next) => {
     const id = req.params.id;
     const role = req.auth.role;
@@ -202,7 +192,7 @@ exports.changeRole = (req, res, next) => {
     })
 };
 
-/***** CHANGE PASSWORD *****/
+// Changer de mot de passe
 exports.changePassword = (req, res, nex) => {
     const id = req.params.id;
     const role = req.auth.role;
@@ -239,7 +229,7 @@ exports.changePassword = (req, res, nex) => {
     }
 };
 
-/***** MODIFY ONE USER *****/
+// Modifier un utilisateur
 exports.modifyUser = (req, res, next) => {
     const userId = req.params.id;
     const id = req.auth.userId;

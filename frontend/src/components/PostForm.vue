@@ -5,7 +5,7 @@
                 <div class="avatar__container">
                     <img class="avatar" v-bind:src="imageUrl" v-bind:alt="`Photo de ${username}`">
                 </div>
-                <h3 class="post__form__header__title">Quoi de neuf {{ username }} ?</h3>
+                <h3 class="post__form__header__title">Comment allez vous {{ username }} ?</h3>
                 <div v-if="!isVisible" v-on:click="isVisible = !isVisible" v-on:keydown.enter="isVisible = !isVisible"
                     class="post__form__header__btn" role="button" tabindex="0"><i class="fa-solid fa-pen"></i></div>
                 <div v-if="isVisible" v-on:click="isVisible = !isVisible" v-on:keydown.enter="isVisible = !isVisible"
